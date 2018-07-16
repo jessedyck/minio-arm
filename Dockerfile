@@ -6,7 +6,7 @@
 # so this now updates from source.
 
 # BUILD:
-# docker build -t minio-arm /files/minio-docker/
+# docker build -t minio-arm github.com/jessedyck/minio-arm.git
 #
 # RUN:
 # docker run -p 9000:9000 \
