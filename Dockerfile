@@ -23,16 +23,15 @@ RUN apt-get update && apt-get --yes install wget git gcc make
 
 # Set up Golang
 # https://docs.minio.io/docs/how-to-install-golang
-RUN wget https://dl.google.com/go/go1.10.8.linux-armv6l.tar.gz
-RUN tar -C /usr/local -xzf go1.10.8.linux-armv6l.tar.gz
+RUN wget https://dl.google.com/go/go1.13.7.linux-armv6l.tar.gz 
+RUN tar -C /usr/local -xzf go1*.tar.gz
 ENV PATH "$PATH:/usr/local/go/bin:${HOME}/go/bin"
 
-# Minio server
-RUN go get -u github.com/minio/minio
+# Get Minio source
+RUN GO111MODULE=on go get github.com/minio/minio
 RUN mv ~/go/bin/minio /usr/bin/
-RUN chmod +x /usr/bin/minio
 
-# Minio client
+# Get and build minio client
 RUN go get -d github.com/minio/mc
 WORKDIR /root/go/src/github.com/minio/mc
 RUN make
@@ -42,3 +41,4 @@ RUN chmod +x /usr/bin/mc
 EXPOSE 9000
 RUN mkdir /data/
 VOLUME /data/
+RUN chmod +x /usr/bin/minio
